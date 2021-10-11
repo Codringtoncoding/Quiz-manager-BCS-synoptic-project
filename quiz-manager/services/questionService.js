@@ -1,6 +1,5 @@
 var mysql = require('mysql2');
 var db = require('../db');
-const { getAllQuizzes } = require('./quizService');
 
 function createQuestion(questions, onSuccess) {
     var sql = "INSERT INTO `questions` (question, quizid) VALUES (?, ?)";
@@ -35,13 +34,12 @@ function deleteQuestion(id, onSuccess) {
     db.query(preparedSql, onSuccess);
 }
 
-function retrieveQuestionSetToQuiz(questions) {
+function retrieveQuestionSetToQuiz(questions, onSuccess) {
     var sql = "SELECT * FROM `quizzes` JOIN questions ON (?) = questions.quizid";
     var inserts = [questions.quizid];
     var preparedSql = mysql.format(sql, inserts);
     db.query(preparedSql, onSuccess);
 }
-
 
 module.exports.editQuestion = editQuestion;
 module.exports.deleteQuestion = deleteQuestion;

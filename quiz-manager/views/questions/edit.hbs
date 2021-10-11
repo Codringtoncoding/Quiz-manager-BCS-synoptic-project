@@ -1,7 +1,7 @@
-<h1>Edit quiz </h1>
-<h2>{{quiz.id}}: {{quiz.name}} </h2>
+<h1>Edit questions </h1>
+<h2>{{questions.id}}: {{questions.name}} </h2>
 </h2>
-<form action='/quizzes/{{quiz.id}}/edit' method="POST">
+<form action='/questions/{{questions.id}}/question' method="POST">
   <span>Please enter a quiz name:</span>
     <input type="text" placeholder="name" name="name" required minlength="8">
     <span class="error" aria-live="polite"></span>
