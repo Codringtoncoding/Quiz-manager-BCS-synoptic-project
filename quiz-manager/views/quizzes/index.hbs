@@ -5,12 +5,16 @@
     <thead>
         <th>ID</th>
         <th>Quiz</th>
-        <th>No of questions</th>
+        <th>Go to of questions</th>
+
     </thead>
     {{#each quizzes}}
         <tr>
             <td>{{this.id}}</td>
             <td>{{this.name}}</td>
+            <td>
+                <button>Go</button>
+            </td>
         </tr>
     {{/each}}
 </table>
