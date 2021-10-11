@@ -1,0 +1,16 @@
+<h1>{{this}}</h1>
+<p>Welcome to {{title}}</p>
+<h1>All quizzes</h1>
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Quiz</th>
+        <th>No of questions</th>
+    </thead>
+    {{#each quizzes}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.name}}</td>
+        </tr>
+    {{/each}}
+</table>

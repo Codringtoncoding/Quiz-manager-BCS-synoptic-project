@@ -6,3 +6,15 @@ body {
 a {
   color: #00B7FF;
 }
+
+input:invalid {
+  border: 2px dashed red;
+}
+
+input:valid {
+  border: 2px solid black;
+}
+
+input:invalid:required {
+  background-image: linear-gradient(to right, pink, lightgreen);
+}
