@@ -25,9 +25,9 @@ router.post('/logout', function(req, res, next) {
 
 router.post('/login',
   // body('email').isEmail().normalizeEmail,
-  body('username').isLength({
-    min:6
-  }),
+  // body('username').isLength({
+  //   min:6
+  // }),
  function(req, res, next) {
   function onSuccess(success, user) {
     if (!success) {
@@ -49,8 +49,6 @@ router.post('/login',
 
   usersService.validateLogin(req.body, onSuccess)
 });
-
-
 // create a user
 router.post('/login', function(req, res, next) {
   
