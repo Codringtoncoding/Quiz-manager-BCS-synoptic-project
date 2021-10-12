@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var { body, validationResult } = require("express-validator");
 var helpers = require('../public/helpers/helpers') 
+var passport = require("passport");
 
 const questionService = require("../services/questionService");
 //create quiz post

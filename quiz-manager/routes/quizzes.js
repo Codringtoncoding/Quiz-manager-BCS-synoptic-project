@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
-const questionService = require("../services/questionService");
 const quizService = require("../services/quizService");
+var passport = require("passport");
+var { editAccess, restrictedAccess, viewAccess } = require("../security/access");
 
 //create quiz post
-router.post("/", body("name").isLength({ min: 8 }), function (req, res) {
+ 
+const auth = passport.authenticate('jwt', { session: false });
+router.post("/", auth, body("name").isLength({ min: 8 }), function (req, res) {
   //server side validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -19,7 +22,7 @@ router.post("/", body("name").isLength({ min: 8 }), function (req, res) {
 });
 
 //render create new page
-router.get("/new", function (req, res, next) {
+router.get("/new", auth, editAccess, function (req, res, next) {
   res.render("quizzes/new");
 });
 //get all quizzes
