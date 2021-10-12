@@ -34,15 +34,24 @@ function deleteQuestion(id, onSuccess) {
     db.query(preparedSql, onSuccess);
 }
 
-function retrieveQuestionsForQuizId(onSuccess) {
+function retrieveQuizQuestionsFromAnId(id, onSuccess) {
+    var sql = "SELECT id, name FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid` WHERE id=?";
+    var inserts = [id];
+    var preparedSql = mysql.format(sql, inserts);
+    console.log(preparedSql, 'preparedSql')
+    db.query(preparedSql, onSuccess);
+}
+
+function retrieveQuestionFromQuizId(onSuccess) {
     var sql = "SELECT * FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid`";
     console.log(sql,'sql')
     db.query(sql, onSuccess);
 }
+
 
 module.exports.editQuestion = editQuestion;
 module.exports.deleteQuestion = deleteQuestion;
 module.exports.getSingualarQuestion = getSingualarQuestion;
 module.exports.getAllQuestions = getAllQuestions;
 module.exports.createQuestion = createQuestion;
-module.exports.retrieveQuestionsForQuizId = retrieveQuestionsForQuizId;
+module.exports.retrieveQuestionFromQuizId = retrieveQuestionFromQuizId;

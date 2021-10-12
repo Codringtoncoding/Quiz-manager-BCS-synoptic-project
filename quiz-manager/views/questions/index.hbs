@@ -1,17 +1,17 @@
-<h1>Quiz list</h1>
+<h1>All Questions</h1>
 <p>Welcome to {{title}}</p>
-<h1>All quizzes</h1>
 <table>
     <thead>
         <th>ID</th>
-        <th>Quiz</th>
+        <th>Questions</th>
         <th>Go to of questions</th>
 
     </thead>
-    {{#each quizzes}}
+    {{#each questions}}
         <tr>
             <td>{{this.id}}</td>
-            <td>{{this.name}}</td>
+            <td>{{this.question}}</td>
+            
             <td>
                 <button>Go</button>
             </td>
