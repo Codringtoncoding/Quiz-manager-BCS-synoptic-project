@@ -22,4 +22,9 @@ function query(sql, onResult) {
     });
 }
 
+function end() {
+    connection.end();
+}
+
+module.exports.end = end;
 module.exports.query = query;
