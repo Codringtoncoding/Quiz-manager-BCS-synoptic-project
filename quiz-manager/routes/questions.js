@@ -1,6 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const { body, validationResult } = require("express-validator");
+var express = require("express");
+var router = express.Router();
+var { body, validationResult } = require("express-validator");
+var helpers = require('../public/helpers/helpers') 
 
 const questionService = require("../services/questionService");
 //create quiz post
@@ -19,27 +20,28 @@ router.post(
       res.redirect("/quizzes");
     }
     console.log(req.body, "req.body");
+
     questionService.createQuestion(req.body, onSuccess);
   }
 );
 
-//view all questions
 
 router.get("/", function (req, res, next) {
 
   function onSuccess(questions) {
+    console.log(questions, "questions");
+
     if (!questions) {
-      res.render("error", { 
-        message: "no questions exits" 
+      res.render("error", {
+        message: "no questions exits",
       });
     }
-    res.render("questions", { 
-      questions: questions, 
-      message: "Questions page" 
+    res.render("questions", {
+      questions: questions,
+      message: "Questions page",
     });
   }
-  questionService.retrieveQuestionSetToQuiz(questions, onSuccess);
-
+  questionService.retrieveQuestionFromQuizId(onSuccess);
 });
 
 //render create new page

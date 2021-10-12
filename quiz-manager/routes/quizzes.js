@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
-
+const questionService = require("../services/questionService");
 const quizService = require("../services/quizService");
 
 //create quiz post
@@ -26,9 +26,14 @@ router.get("/new", function (req, res, next) {
 router.get("/", function (req, res, next) {
   function onSuccess(quizzes) {
     if (!quizzes) {
-      res.render("error", { message: "no quizzes exits" });
+      res.render("error", {
+        message: "no quizzes exits",
+      });
     }
-    res.render("quizzes", { quizzes: quizzes, message: "Quizzes page" });
+    res.render("quizzes", {
+      quizzes: quizzes,
+      message: "Quizzes page",
+    });
   }
   quizService.getAllQuizzes(onSuccess);
 });
@@ -39,25 +44,33 @@ router.get("/:id", function (req, res, next) {
 
   function onSuccess(quiz) {
     if (quiz.length === 0) {
-      res.render("error", { message: "no quiz exits" });
+      res.render("error", {
+        message: "no quiz exits",
+      });
     }
     console.log(quiz);
-    res.render("quizzes/details", { quiz: quiz[0] });
+    res.render("quizzes/details", {
+      quiz: quiz[0],
+    });
   }
   quizService.getSingualarQuiz(quizId, onSuccess);
 });
 
-router.get("/:id/edit", function (req, res, next) {
+router.get("/:id/edit",  function (req, res, next) {
   let quizId = req.params.id;
-  function onSuccess(quiz) {
+   function onSuccess(quiz) {
     if (quiz.length === 0) {
-      res.render("error", { message: "no quiz exits" });
-    }
-    res.render("quizzes/edit", { quiz: quiz[0] });
+       return res.render("error", {
+        message: "no quiz exits",
+      });
+    } 
+      res.render("quizzes/edit", {
+      quiz: quiz[0],
+    });
   }
-  quizService.getSingualarQuiz(quizId, onSuccess);
-});
+  quizService.getSingualarQuiz(quizId, onSuccess); 
 
+});
 router.post("/:id/edit", function (req, res, next) {
   function onSuccess() {
     res.render("quizzes/edit", {
@@ -71,7 +84,11 @@ router.post("/:id/edit", function (req, res, next) {
     id: req.params.id,
     name: req.body.name,
   };
-  quizService.editQuizName(formData, onSuccess);
+  try {
+    quizService.editQuizName(formData, onSuccess);
+  } catch (error) {
+    res.render("error", error);
+  }
 });
 
 router.get("/:id/delete", function (req, res, next) {
@@ -85,10 +102,12 @@ router.post("/:id/delete", function (req, res, next) {
     console.log("deleted");
     res.redirect("/quizzes");
   }
-  quizService.deleteQuiz(quizId, onSuccess);
+  try {
+    quizService.deleteQuiz(quizId, onSuccess);
+  } catch (error) {
+    res.render("error", error);
+  }
 });
 
-//QUESTIONS
 
-//ANSWERS
 module.exports = router;
