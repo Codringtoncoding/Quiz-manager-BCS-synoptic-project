@@ -1,13 +1,12 @@
 <h1>Edit quiz </h1>
 <h2>{{quiz.id}}: {{quiz.name}} </h2>
-</h2>
 <form action='/quizzes/{{quiz.id}}/edit' method="POST">
-  <span>Please enter a quiz name:</span>
+    <span>Please enter a quiz name:</span>
     <input type="text" placeholder="name" name="name" required minlength="8">
     <span class="error" aria-live="polite"></span>
     <button type="submit">Submit</button>
 </form>
-<h1>Quiz</h1>
+<h3>Quiz</h3>
 <table>
     <thead>
         <th>ID</th>
@@ -24,3 +23,15 @@
         </td>
     </tr>
 </table>
+
+<h3>New question</h3>
+<form action="/questions" method="POST" class="question-form">   
+    <span>Please enter a question:</span>
+    <input type="text" placeholder="question" name="question" required minlength="8">
+    <span>Select the quiz you would like to add this too:</span>
+    <input type="checkbox" id={{quiz.name}} name={{quiz.name}} value={{quiz.id}}>
+    <label for={{quiz.name}}> {{quiz.name}}</label>
+    <span class="error" aria-live="polite"></span>
+    <button type="submit">Submit</button>
+</form>
+
