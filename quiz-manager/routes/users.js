@@ -20,7 +20,7 @@ router.get('/logout', function(req, res, next) {
 router.post('/logout', function(req, res, next) {
   res.clearCookie("key");
   console.log('logged out')
-  res.redirect('/books')
+  res.redirect('/quizzes')
 });
 
 router.post('/login',
@@ -44,9 +44,12 @@ router.post('/login',
     
     res.cookie('token', token);
       console.log('logged in')
+      console.log('token', token)
+      console.log('user', user)
+
+
       res.redirect('/quizzes');
   }
-
   usersService.validateLogin(req.body, onSuccess)
 });
 // create a user

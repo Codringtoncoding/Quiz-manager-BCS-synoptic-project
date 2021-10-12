@@ -1,13 +1,31 @@
+require("dotenv").config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var JwtStrategy = require('passport-jwt').Strategy;
+var passport = require('passport');
+var CookieExtractor = require('./security/cookieExtractor')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var quizzesRouter = require('./routes/quizzes');
 var questionsRouter = require('./routes/questions');
+var usersService = require("./services/usersService");
+
+
+var opts = {}
+opts.jwtFromRequest = CookieExtractor.cookieExtractor;
+opts.secretOrKey = process.env.AUTH_SECRET;
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+  // add the findUser function to get the details for a user given their username
+  usersService.findUser(jwt_payload['user'].username, function(err, user) {
+      if (err) {
+          return done(err, null);
+      }
+      return done(null, user);
+  });
+}));
 
 var app = express();
 
@@ -20,6 +38,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
