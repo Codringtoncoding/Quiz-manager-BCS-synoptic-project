@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router();
-var { body, validationResult } = require("express-validator");
-var helpers = require('../public/helpers/helpers') 
-var passport = require("passport");
+const express = require("express");
+const router = express.Router();
+const { body, validationResult } = require("express-validator");
+const helpers = require("../public/helpers/helpers");
+const passport = require("passport");
 
 const questionService = require("../services/questionService");
 //create quiz post
@@ -10,39 +10,36 @@ router.post(
   //saniziation
   "/",
   body("question").isLength({ min: 8 }).not().isEmpty().trim().escape(),
-  function (req, res) {
+  async (req, res) => {
     //server side validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    function onSuccess() {
-      res.redirect("/quizzes");
-    }
-    console.log(req.body, "req.body");
+    await questionService.createQuestion(req.body);
 
-    questionService.createQuestion(req.body, onSuccess);
+    res.redirect("/quizzes");
+  
+    console.log(req.body, "req.body");
   }
 );
 
+router.get("/", async (req, res, next) => {
 
-router.get("/", function (req, res, next) {
-
-  function onSuccess(questions) {
+  const questions = await questionService.retrieveQuestionFromQuizId();
     console.log(questions, "questions");
 
     if (!questions) {
-      res.render("error", {
+      return res.render("error", {
         message: "no questions exits",
       });
     }
-    res.render("questions", {
+    return res.render("questions", {
       questions: questions,
       message: "Questions page",
+    
     });
-  }
-  questionService.retrieveQuestionFromQuizId(onSuccess);
 });
 
 //render create new page

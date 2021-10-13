@@ -3,9 +3,9 @@ const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const quizService = require("../services/quizService");
 const passport = require("passport");
-var helpers = require("../public/helpers/helpers");
+const helpers = require("../public/helpers/helpers");
 
-var {
+const {
   editAccess,
   restrictedAccess,
   viewAccess,

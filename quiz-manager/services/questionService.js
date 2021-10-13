@@ -1,51 +1,44 @@
-var mysql = require('mysql2');
-var db = require('../db');
+const mysql = require('mysql2');
+const db = require('../db');
 
-function createQuestion(questions, onSuccess) {
-    var sql = "INSERT INTO `questions` (question, quizid) VALUES (?, ?)";
-    var inserts = [questions.question, questions.quizid];
-    var preparedSql = mysql.format(sql, inserts);
-    db.query(preparedSql, onSuccess);
+async function createQuestion(questions) {
+    const sql = "INSERT INTO `questions` (question, quizid) VALUES (?, ?)";
+    const inserts = [questions.question, questions.quizid];
+    const preparedSql = mysql.format(sql, inserts);
+    return db.query(preparedSql);
 }
 
-function getAllQuestions(onSuccess) {
-    var sql = "SELECT * FROM `questions`";
-    db.query(sql, onSuccess);
+async function getAllQuestions() {
+    const sql = "SELECT * FROM `questions`";
+    return db.query(sql);
 }
 
-function getSingualarQuestion(id, onSuccess) {
-    var sql = "SELECT id, name FROM `questions` WHERE id = (?)";
-    var inserts = [id];
-    var preparedSql = mysql.format(sql, inserts);
-       db.query(preparedSql, onSuccess);
+async function getSingualarQuestion(id) {
+    const sql = "SELECT id, name FROM `questions` WHERE id = (?)";
+    const inserts = [id];
+    const preparedSql = mysql.format(sql, inserts);
+       return db.query(preparedSql);
 }
 
-function editQuestion(formData, onSuccess) {
-    var sql = "UPDATE `questions` SET question=? WHERE id=?";
-    var inserts = [formData.question, formData.id];
-    var preparedSql = mysql.format(sql, inserts);
-    db.query(preparedSql, onSuccess);
+async function editQuestion(formData) {
+    const sql = "UPDATE `questions` SET question=? WHERE id=?";
+    const inserts = [formData.question, formData.id];
+    const preparedSql = mysql.format(sql, inserts);
+    return db.query(preparedSql);
 }
 
-function deleteQuestion(id, onSuccess) {
-    var sql = "DELETE FROM `questions` WHERE id = (?)";
-    var inserts = [id];
-    var preparedSql = mysql.format(sql, inserts);
-    db.query(preparedSql, onSuccess);
+async function deleteQuestion(id) {
+    const sql = "DELETE FROM `questions` WHERE id = (?)";
+    const inserts = [id];
+    const preparedSql = mysql.format(sql, inserts);
+    return db.query(preparedSql);
 }
 
-function retrieveQuizQuestionsFromAnId(id, onSuccess) {
-    var sql = "SELECT id, name FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid` WHERE id=?";
-    var inserts = [id];
-    var preparedSql = mysql.format(sql, inserts);
-    console.log(preparedSql, 'preparedSql')
-    db.query(preparedSql, onSuccess);
-}
 
-function retrieveQuestionFromQuizId(onSuccess) {
-    var sql = "SELECT * FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid`";
+async function retrieveQuestionFromQuizId() {
+    const sql = "SELECT * FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid`";
     console.log(sql,'sql')
-    db.query(sql, onSuccess);
+    return db.query(sql);
 }
 
 
