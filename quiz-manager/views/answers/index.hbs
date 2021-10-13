@@ -1,0 +1,20 @@
+<h1>All Questions</h1>
+<p>Welcome to {{title}}</p>
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Questions</th>
+        <th>Go to of questions</th>
+
+    </thead>
+    {{#each questions}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.question}}</td>
+            
+            <td>
+                <button>Go</button>
+            </td>
+        </tr>
+    {{/each}}
+</table>

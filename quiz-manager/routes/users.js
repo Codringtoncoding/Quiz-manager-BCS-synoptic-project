@@ -16,7 +16,6 @@ router.get('/logout', function(req, res, next) {
   res.render('users/logout');
 });
 
-
 router.post('/logout', function(req, res, next) {
   res.clearCookie("key");
   console.log('logged out')
@@ -39,14 +38,13 @@ router.post('/login',
         username: user.username
       }
     },
-    // Your secret, e.g. here set by environment variable
+    
     process.env.AUTH_SECRET);
     
     res.cookie('token', token);
       console.log('logged in')
       console.log('token', token)
       console.log('user', user)
-
 
       res.redirect('/quizzes');
   }
@@ -60,7 +58,6 @@ router.post('/login', function(req, res, next) {
     password: req.body.password,
   }
 
-
   function onSuccess() {
       res.render('books/edit', {
           user: formData.username,
@@ -68,9 +65,7 @@ router.post('/login', function(req, res, next) {
       })
   
   }
-
   usersService.createUser(formData, onSuccess)
-
 });
 
 module.exports = router;

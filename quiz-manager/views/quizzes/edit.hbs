@@ -1,5 +1,6 @@
 <h1>Edit quiz </h1>
 <h2>{{quiz.id}}: {{quiz.name}}</h2>
+<h2>{{questions.name}}: {{quiz.name}}</h2>
 
 <form action='/quizzes/{{quiz.id}}/edit' method="POST">
     <span>Please enter a quiz name:</span>
@@ -32,6 +33,8 @@
     </thead>
     <tr>
         <td>{{questions.id}}</td>
-        <td>{{questions}}</td>
+        <td>{{questions.name}}</td>
+        <td>{{questions.question}}</td>
+
     </tr>
 </table>
