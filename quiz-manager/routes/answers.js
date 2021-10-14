@@ -27,6 +27,7 @@ router.post("/",
     const answer = req.body.answer;
     const correct = req.body.correct;
 
+
     await editAnswer(answer, correct, questionID);
     res.redirect('back');
 
@@ -34,26 +35,31 @@ router.post("/",
 );
 
 router.get("/:id", async (req, res) => {
-    // let id = req.body.id;  
+    let id = req.body.id;  
     const answers = await getAllAnswers()
-    console.log(answers, 'a')
     return res.render("answers", {answers})
   });
 
 router.post("/:id", async (req, res) => {
     let  questionId =  req.params.id
-    console.log(req, 'req')
-
-    console.log(req.body, 'req')
-    console.log(questionId , 'questionId');
-
-
     const answers = await retrieveAnswersFromQuestionsId(questionId)
-    console.log(answers , 'answers');
     
     return res.render("answers", {
         answers
     });
+});
+router.get("/:id/answers-only", async (req, res, next) => {
+
+  let  questionId =  req.params.id
+  const answers = await retrieveAnswersFromQuestionsId(questionId)
+
+  if (answers.length === 0) {
+    return res.render("error", {
+      message: "no answers exits for this quiz",
+    });
+  }
+  console.log(answers, 'answer')
+  res.render("answers/view-only", {answers});
 });
 
 router.get("/:id/delete", function (req, res, next) {

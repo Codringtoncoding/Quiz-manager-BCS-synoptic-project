@@ -1,3 +1,4 @@
+require("dotenv").config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -9,7 +10,28 @@ const usersRouter = require('./routes/users');
 const quizzesRouter = require('./routes/quizzes');
 const questionsRouter = require('./routes/questions');
 const answersRouter = require('./routes/answers');
+var JwtStrategy = require("passport-jwt").Strategy;
+var CookieExtractor = require("./security/cookieExtractor");
+var passport = require("passport");
+
+
 const app = express();
+
+var opts = {};
+opts.jwtFromRequest = CookieExtractor.cookieExtractor;
+opts.secretOrKey = process.env.AUTH_SECRET;
+
+passport.use(
+  new JwtStrategy(opts, function (jwt_payload, done) {
+    // add the findUser function to get the details for a user given their username
+    usersService.findUser(jwt_payload["user"].username, function (err, user) {
+      if (err) {
+        return done(err, null);
+      }
+      return done(null, user);
+    });
+  })
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +53,8 @@ app.use('/answers', answersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {

@@ -2,7 +2,8 @@ var express = require("express");
 var router = express.Router();
 var usersService = require("../services/usersService");
 var jwt = require("jsonwebtoken");
-var { checkBody, validationResult } = require("express-validator");
+var { checkBody, validationResult, body } = require("express-validator");
+const { compare } = require("bcrypt");
 
 router.get("/", async (req, res, next) => {
   res.send("respond with a resource");
@@ -34,11 +35,11 @@ router.post(
     if (!user) {
       res.render("error", {
         message: "No valid user",
-        error: { title: "User not recognised", message: "" },
+        error: { title: "User not recognised", message: "user not recognised" },
       });
       return;
     }
-
+  
     const token = jwt.sign(
       {
         user: {

@@ -39,7 +39,6 @@ async function deleteQuestion(id) {
     return db.query(preparedSql);
 }
 
-
 async function retrieveQuestionFromQuizId(id) {
     const sql = "SELECT * FROM `quizzes` WHERE id = (?)";
     const inserts = [id];

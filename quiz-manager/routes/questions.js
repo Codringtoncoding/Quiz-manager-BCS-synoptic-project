@@ -110,6 +110,7 @@ router.get("/:id/delete", function (req, res, next) {
   res.render("questions/delete", { id });
 });
 
+
 router.post("/:id/delete", async (req, res, next) => {
   let quizId = req.params.id;
 
