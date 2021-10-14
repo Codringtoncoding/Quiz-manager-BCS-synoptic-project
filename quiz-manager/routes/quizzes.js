@@ -12,10 +12,12 @@ const {
   viewAccess,
 } = require("../security/access");
 
+
+
 const auth = passport.authenticate("jwt", { session: false });
 
 //create quiz post
-router.post("/", auth, body("name").isLength({ min: 8 }), async (req, res) => {
+router.post("/", auth, restrictedAccess, body("name").isLength({ min: 8 }), async (req, res) => {
   //server side validation
   const errors = validationResult(req);
 
@@ -28,7 +30,7 @@ router.post("/", auth, body("name").isLength({ min: 8 }), async (req, res) => {
   return;
 });
 //render create new page
-router.get("/new", auth, async (req, res, next) => {
+router.get("/new", restrictedAccess, auth, async (req, res, next) => {
   return res.render("quizzes/new");
 });
 
@@ -61,7 +63,7 @@ router.get("/:id", auth,  async function (req, res, next) {
   });
 });
 
-router.get("/:id/edit", auth, async (req, res) => {
+router.get("/:id/edit",restrictedAccess, auth, async (req, res) => {
   let quizId = req.params.id;
 
   const quiz = await quizService.getSingualarQuiz(quizId);
@@ -80,7 +82,7 @@ router.get("/:id/edit", auth, async (req, res) => {
   return res.render("quizzes/edit", model);
 });
 
-router.post("/:id/edit", auth, async (req, res) => {
+router.post("/:id/edit", restrictedAccess, auth, async (req, res) => {
   let formData = {
     id: req.params.id,
     name: req.body.name,
@@ -96,12 +98,12 @@ router.post("/:id/edit", auth, async (req, res) => {
   });
 });
 
-router.get("/:id/delete", auth, async (req, res) => {
+router.get("/:id/delete", restrictedAccess, auth, async (req, res) => {
   let id = req.params.id;
   return res.render("quizzes/delete", { id });
 });
 
-router.post("/:id/delete", auth, async (req, res) => {
+router.post("/:id/delete", restrictedAccess, auth, async (req, res) => {
   let quizId = req.params.id;
 
   try {

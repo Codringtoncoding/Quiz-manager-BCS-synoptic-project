@@ -16,13 +16,9 @@ router.get("/login", async (req, res, next) => {
 });
 
 router.get("/logout", async (req, res, next) => {
-  res.render("users/logout");
-});
-
-router.post("/logout", async (req, res, next) => {
   res.clearCookie("key");
-  console.log("logged out");
-  res.redirect("/");
+  req.logout();
+  res.redirect("/")
 });
 
 router.post(
@@ -44,19 +40,18 @@ router.post(
     const token = jwt.sign(
       {
         user: {
-          username: user.username,
+          username: user[0].username,
         },
       },
-
       process.env.AUTH_SECRET
     );
 
     res.cookie("token", token);
     console.log("logged in");
     console.log("token", token);
-    console.log("user", user.username);
+    console.log("user", user[0].username);
 
-    res.redirect("/quizzes");
+    return res.redirect("/quizzes");
   }
 );
 

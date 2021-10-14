@@ -5,7 +5,6 @@ const {getAllAnswers, retrieveAnswersFromQuestionsId, editAnswer, deleteAnswers 
 const passport = require("passport");
 
 const {
-  editAccess,
   restrictedAccess,
   viewAccess,
 } = require("../security/access");
@@ -16,7 +15,7 @@ const auth = passport.authenticate("jwt", { session: false });
 router.post("/", 
 // auth, 
 // body("anser").isLength({ min: 8 }),
-  auth, async (req, res) => {
+  auth, restrictedAccess, viewAccess, async (req, res) => {
     //server side validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -34,13 +33,13 @@ router.post("/",
   }
 );
 
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", auth, viewAccess, restrictedAccess, async (req, res) => {
     let id = req.body.id;  
     const answers = await getAllAnswers()
     return res.render("answers", {answers})
   });
 
-router.post("/:id", auth, async (req, res) => {
+router.post("/:id", auth, restrictedAccess, async (req, res) => {
     let  questionId =  req.params.id
     const answers = await retrieveAnswersFromQuestionsId(questionId)
     
@@ -48,7 +47,7 @@ router.post("/:id", auth, async (req, res) => {
         answers
     });
 });
-router.get("/:id/answers-only", auth, async (req, res, next) => {
+router.get("/:id/answers-only", auth, restrictedAccess, async (req, res, next) => {
 
   let  questionId =  req.params.id
   const answers = await retrieveAnswersFromQuestionsId(questionId)
@@ -62,12 +61,12 @@ router.get("/:id/answers-only", auth, async (req, res, next) => {
   res.render("answers/view-only", {answers});
 });
 
-router.get("/:id/delete", function (req, res, next) {
+router.get("/:id/delete", auth, viewAccess, restrictedAccess, function (req, res, next) {
   let id = req.params.id;
   res.render("answers/delete", { id });
 });
 
-router.post("/:id/delete", auth, async (req, res, next) => {
+router.post("/:id/delete", auth, viewAccess,restrictedAccess, async (req, res, next) => {
   let questionId = req.params.id;
   await deleteAnswers(questionId);
   console.log("deleted");

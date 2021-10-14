@@ -18,6 +18,12 @@ const {
   retrieveQuestionsFromId
 } = require("../services/quizService");
 
+const {
+  editAccess,
+  restrictedAccess,
+  viewAccess,
+} = require("../security/access");
+
 const auth = passport.authenticate("jwt", { session: false });
 
 // create quiz post
@@ -25,7 +31,7 @@ router.post(
   //saniziation
   "/",
   body("question").isLength({ min: 8 }).not().isEmpty().trim().escape(),
-  auth, async (req, res) => {
+  auth, viewAccess, restrictedAccess, async (req, res) => {
     //server side validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -51,7 +57,7 @@ router.get("/", auth, async (req, res, next) => {
   });
 });
 
-router.get("/:id/edit", auth, async (req, res) => {
+router.get("/:id/edit", auth, viewAccess, restrictedAccess,  async (req, res) => {
   let questionId = req.params.id;
 
   const question = await getSingualarQuestion(questionId);
@@ -69,7 +75,7 @@ router.get("/:id/edit", auth, async (req, res) => {
   return res.render("questions/edit", model);
 });
 
-router.post("/:id/edit", auth, async (req, res) => {
+router.post("/:id/edit", auth, viewAccess, restrictedAccess , async (req, res) => {
   let formData = {
     id: req.params.id,
     question: req.body.question,
@@ -105,13 +111,13 @@ router.get("/:id", auth, async (req, res) => {
   return res.render("questions", model);
 });
 
-router.get("/:id/delete", function (req, res, next) {
+router.get("/:id/delete", auth, viewAccess, restrictedAccess, function (req, res, next) {
   let id = req.params.id;
   res.render("questions/delete", { id });
 });
 
 
-router.post("/:id/delete", auth, async (req, res, next) => {
+router.post("/:id/delete", auth, viewAccess, restrictedAccess, async (req, res, next) => {
   let quizId = req.params.id;
 
   console.log("deleted");

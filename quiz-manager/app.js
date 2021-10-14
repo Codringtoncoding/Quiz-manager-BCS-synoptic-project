@@ -16,7 +16,6 @@ const passport = require("passport");
 const  { findUser } = require('./services/usersService')
 const app = express();
 
-
 var opts = {};
 opts.jwtFromRequest = CookieExtractor.cookieExtractor;
 opts.secretOrKey = process.env.AUTH_SECRET;
@@ -30,10 +29,11 @@ passport.use(
         console.log('error')
         return done(err, null);
       }
-      console.log(user, 'user')
+      console.log(user, 'userJWt')
       return done(null, user);
   })
 );
+console.log()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

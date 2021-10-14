@@ -58,11 +58,11 @@ async function validateLogin(user) {
     return resultToCheck;
   }
 }
-async function findUser(username) {
-  const sql = "SELECT username, role FROM `user` WHERE username = (?)";
-  const inserts = [username];
-  const preparedSql = mysql.format(sql, inserts);
-  return db.query(preparedSql);
+  async function findUser(username) {
+    const sql = "SELECT username, role FROM `user` WHERE username = (?)";
+    const inserts = [username];
+    const preparedSql = mysql.format(sql, inserts);
+    return db.query(preparedSql);
 }
 
 module.exports.findUser = findUser;
