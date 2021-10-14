@@ -8,24 +8,17 @@
 
   </thead>
   {{#each answers}}
-    <tr>
-      <td>{{this.id}}</td>
-      <td>{{this.answer}}</td>
-      <td>{{this.correct}}</td>
-      <td>{{this.questionid}}</td>
-      <td>
-        <form action="/answers/{{id}}/delete" method="POST">
-          <input
-            type="submit"
-            name="delete"
-            value="Delete"
-            onClick="return confirm('Are you sure you want to delete?')"
-          />
-        </form>
-        <Button href="/questions/{{id}}/edit">
-            Edit
-        </Button>
-      </td>
-    </tr>
+  <tr>
+    <td>{{this.id}}</td>
+    <td>{{this.answer}}</td>
+    <td>{{this.correct}}</td>
+    <td>{{this.questionid}}</td>
+    <td>
+      <form action="/answers/{{this.id}}/delete" method="POST" class="form">
+        <input type="submit" name="delete" value="Delete"
+          onClick="return confirm('Are you sure you want to delete?')" />
+      </form>
+    </td>
+  </tr>
   {{/each}}
 </table>

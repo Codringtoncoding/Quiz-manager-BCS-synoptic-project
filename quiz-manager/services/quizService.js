@@ -41,11 +41,9 @@ async function retrieveQuestionsFromId(id) {
   return db.query(preparedSql);
 }
 
-
 module.exports.editQuizName = editQuizName;
 module.exports.deleteQuiz = deleteQuiz;
 module.exports.getSingualarQuiz = getSingualarQuiz;
 module.exports.getAllQuizzes = getAllQuizes;
 module.exports.createQuiz = createQuiz;
 module.exports.retrieveQuestionsFromId = retrieveQuestionsFromId;
-

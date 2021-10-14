@@ -1,34 +1,29 @@
 <h1>Edit quiz </h1>
 <h2>{{quiz.id}}: {{quiz.name}}</h2>
-
-{{!-- <form action='/quizzes/{{quiz.id}}/edit' method="POST">
-    <span>Please enter a quiz name:</span>
-    <input type="text" placeholder="name" name="name" required minlength="8">
-    <span class="error" aria-live="polite"></span>
-    <button type="submit">Submit</button>
-</form>
-<form action='/quizzes/{{quiz.id}}/delete' method="POST">
-    <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-</form> --}}
-
 <h3>New question</h3>
 
-<form action="/questions" method="POST" class="question-form">
-    <span>Please enter a question:</span>
+<form action="/questions" method="POST" class="form">
+    <ul>Please enter a new question:</ul>
     <input type="text" placeholder="question" name="question" required minlength="8">
-    <span>Please enter a answer in the following format 
-        <br/> A.“250thousand” 
-        <br/> B.“1million”
-        <br/> C.“9million”
-        <br/>D.“78million”
-    </span>
+    <h3>Answer</h3>
+
+    <ul>Please enter a answer in the following format:
+        <br />
+        <br /> A.“250thousand”
+        <br /> B.“1million”
+        <br /> C.“9million”
+        <br /> D.“78million”
+    </ul>
+    <br />
+
     <input type="text" placeholder="answer" name="answer" required minlength="8">
-    <span>Select the quiz you would like to add this too:</span>
+    <h3>Select the quiz you would like to add this too:</h3>
     <input type="checkbox" id={{quiz.name}} name="quizid" value={{quiz.id}}>
     <label for={{quiz.name}}> {{quiz.name}}</label>
-    <span class="error" aria-live="polite"></span>
+    <ul class="error" aria-live="polite"></ul>
     <button type="submit">Submit</button>
 </form>
+
 
 
 <h3>All Questions for quiz</h3>
@@ -40,12 +35,7 @@
     {{#each questions}}
     <tr>
         <td>{{this.id}}</td>
-        <td>{{this.name}}</td>
-        <td>{{this.question}}
-            <form action='/answers/{{this.id}}/' method="GET">
-                <button type="submit">got to answers</button>
-            </form>
-        </td>
+        <td>{{this.question}}</td>
     </tr>
     {{/each}}
 </table>

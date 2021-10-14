@@ -4,8 +4,8 @@
   <thead>
     <th>ID</th>
     <th>Quiz</th>
-    <th>Go to of questions</th>
-
+    <th>Go to questions</th>
+    <th>Edit questions</th>
   </thead>
   {{#each quizzes}}
     <tr>
@@ -17,7 +17,7 @@
         </form>
       </td>
       <td>
-        <form action="/questions/{{this.id}}/edit" method="GET">
+        <form action="/quizzes/{{this.id}}/edit" method="GET">
           <button type="submit">Edit</button>
         </form>
       </td>
