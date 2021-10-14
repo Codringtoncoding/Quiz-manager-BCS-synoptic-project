@@ -13,7 +13,7 @@ const viewAccess = (req, res, next) => {
         next();
         return;
     }
-    res.render('error' , {message: "you don't have permission"});
+    res.render('error' , {message: "you don't have permission as a view only user"});
 }
 
 const restrictedAccess = (req, res, next) => {
@@ -22,7 +22,7 @@ const restrictedAccess = (req, res, next) => {
         next();
         return;
     }
-    res.render('error' , {message: "you don't have permission"});
+    res.render('error' , {message: "you don't have permission as a restricted user"});
 }
 
 module.exports.viewAccess = viewAccess;

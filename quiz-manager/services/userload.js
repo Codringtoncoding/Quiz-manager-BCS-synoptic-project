@@ -8,27 +8,23 @@ my_test_user_edit = {
     role: "edit"
 };
 
-// my_test_user_view = {
-//     username: "view_user",
-//     password: "view123",
-//     role: "view"
-// };
-
-// my_test_user_restricted = {
-//     username: "restricted_user",
-//     password: "restricted123",
-//     role: "restricted"
-// };
-
-// usersService.createUser(my_test_user_view, onSuccess);
-// usersService.createUser(my_test_user_restricted, onSuccess);
-
-onSuccess = () => {
-    db.end();
+my_test_user_view = {
+    username: "view_user",
+    password: "view123",
+    role: "view"
 };
 
+my_test_user_restricted = {
+    username: "restricted_user",
+    password: "restricted123",
+    role: "restricted"
+};
 
-usersService.createUser(my_test_user_edit, onSuccess);
+usersService.createUser(my_test_user_view);
+usersService.createUser(my_test_user_restricted);
+usersService.createUser(my_test_user_edit);
+db.end();
+
 
 
 

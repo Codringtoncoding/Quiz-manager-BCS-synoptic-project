@@ -1,6 +1,6 @@
 <h1>Login</h1>
-<form action='/users/login' method="post">
-    <input type="text" placeholder="username" name="username">
-    <input type="text" placeholder="password" name="password">
+<form action='/users/login' method="post" class="question-form">
+    <input type="text" placeholder="username" name="username" required minlength="5">
+    <input type="text" placeholder="password" name="password" required minlength="5">
     <button type="submit">Submit</button>
 </form>

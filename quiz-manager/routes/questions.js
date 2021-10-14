@@ -18,14 +18,14 @@ const {
   retrieveQuestionsFromId
 } = require("../services/quizService");
 
-// const auth = passport.authenticate("jwt", { session: false });
+const auth = passport.authenticate("jwt", { session: false });
 
 // create quiz post
 router.post(
   //saniziation
   "/",
   body("question").isLength({ min: 8 }).not().isEmpty().trim().escape(),
-  async (req, res) => {
+  auth, async (req, res) => {
     //server side validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -37,7 +37,7 @@ router.post(
     return res.redirect("/questions");
   }
 );
-router.get("/", async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
   const questions = await retrieveQuestionFromQuizId();
 
   if (!questions) {
@@ -51,7 +51,7 @@ router.get("/", async (req, res, next) => {
   });
 });
 
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", auth, async (req, res) => {
   let questionId = req.params.id;
 
   const question = await getSingualarQuestion(questionId);
@@ -69,7 +69,7 @@ router.get("/:id/edit", async (req, res) => {
   return res.render("questions/edit", model);
 });
 
-router.post("/:id/edit", async (req, res) => {
+router.post("/:id/edit", auth, async (req, res) => {
   let formData = {
     id: req.params.id,
     question: req.body.question,
@@ -87,7 +87,7 @@ router.post("/:id/edit", async (req, res) => {
 
 
 //get questions for quiz 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   let quizId = req.params.id;
 
   const quizName = await retrieveQuestionFromQuizId(quizId);
@@ -111,7 +111,7 @@ router.get("/:id/delete", function (req, res, next) {
 });
 
 
-router.post("/:id/delete", async (req, res, next) => {
+router.post("/:id/delete", auth, async (req, res, next) => {
   let quizId = req.params.id;
 
   console.log("deleted");

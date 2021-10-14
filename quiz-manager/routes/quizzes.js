@@ -28,12 +28,12 @@ router.post("/", auth, body("name").isLength({ min: 8 }), async (req, res) => {
   return;
 });
 //render create new page
-router.get("/new", async (req, res, next) => {
-  return req.render("quizzes/new");
+router.get("/new", auth, async (req, res, next) => {
+  return res.render("quizzes/new");
 });
 
 //get all quizzes
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const quizzes = await quizService.getAllQuizzes();
   if (!quizzes) {
     return res.render("error", {
@@ -47,7 +47,7 @@ router.get("/", async (req, res) => {
 });
 
 //get singular quiz
-router.get("/:id", async function (req, res, next) {
+router.get("/:id", auth,  async function (req, res, next) {
   let quizId = req.params.id;
   const quiz = await getSingualarQuiz(quizId);
 
@@ -61,7 +61,7 @@ router.get("/:id", async function (req, res, next) {
   });
 });
 
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", auth, async (req, res) => {
   let quizId = req.params.id;
 
   const quiz = await quizService.getSingualarQuiz(quizId);
@@ -80,7 +80,7 @@ router.get("/:id/edit", async (req, res) => {
   return res.render("quizzes/edit", model);
 });
 
-router.post("/:id/edit", async (req, res) => {
+router.post("/:id/edit", auth, async (req, res) => {
   let formData = {
     id: req.params.id,
     name: req.body.name,
@@ -96,12 +96,12 @@ router.post("/:id/edit", async (req, res) => {
   });
 });
 
-router.get("/:id/delete", async (req, res) => {
+router.get("/:id/delete", auth, async (req, res) => {
   let id = req.params.id;
   return res.render("quizzes/delete", { id });
 });
 
-router.post("/:id/delete", async (req, res) => {
+router.post("/:id/delete", auth, async (req, res) => {
   let quizId = req.params.id;
 
   try {

@@ -4,32 +4,34 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const quizzesRouter = require('./routes/quizzes');
 const questionsRouter = require('./routes/questions');
 const answersRouter = require('./routes/answers');
-var JwtStrategy = require("passport-jwt").Strategy;
-var CookieExtractor = require("./security/cookieExtractor");
-var passport = require("passport");
 
-
+const JwtStrategy = require("passport-jwt").Strategy;
+const CookieExtractor = require("./security/cookieExtractor");
+const passport = require("passport");
+const  { findUser } = require('./services/usersService')
 const app = express();
+
 
 var opts = {};
 opts.jwtFromRequest = CookieExtractor.cookieExtractor;
 opts.secretOrKey = process.env.AUTH_SECRET;
 
 passport.use(
-  new JwtStrategy(opts, function (jwt_payload, done) {
+  new JwtStrategy(opts, async function (jwt_payload, done) {
     // add the findUser function to get the details for a user given their username
-    usersService.findUser(jwt_payload["user"].username, function (err, user) {
-      if (err) {
+    console.log(jwt_payload["user"].username, 'jwt')
+    const user = await findUser(jwt_payload["user"].username) 
+      if (!user) {
+        console.log('error')
         return done(err, null);
       }
+      console.log(user, 'user')
       return done(null, user);
-    });
   })
 );
 
@@ -42,6 +44,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -53,9 +56,6 @@ app.use('/answers', answersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

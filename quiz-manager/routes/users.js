@@ -3,7 +3,9 @@ var router = express.Router();
 var usersService = require("../services/usersService");
 var jwt = require("jsonwebtoken");
 var { checkBody, validationResult, body } = require("express-validator");
-const { compare } = require("bcrypt");
+const passport = require("passport");
+
+const auth =  passport.authenticate("jwt", { session: false });
 
 router.get("/", async (req, res, next) => {
   res.send("respond with a resource");
@@ -20,7 +22,7 @@ router.get("/logout", async (req, res, next) => {
 router.post("/logout", async (req, res, next) => {
   res.clearCookie("key");
   console.log("logged out");
-  res.redirect("/quizzes");
+  res.redirect("/");
 });
 
 router.post(
@@ -31,19 +33,18 @@ router.post(
   // }),
   async (req, res, next) => {
     const user = await usersService.validateLogin(req.body);
-
     if (!user) {
-      res.render("error", {
-        message: "No valid user",
+      return res.render("error", {
+        message: "No valid user or wrong password",
         error: { title: "User not recognised", message: "user not recognised" },
       });
-      return;
+      ;
     }
-  
+    console.log(user, "user")
     const token = jwt.sign(
       {
         user: {
-          username: user[0].username,
+          username: user.username,
         },
       },
 
@@ -53,7 +54,7 @@ router.post(
     res.cookie("token", token);
     console.log("logged in");
     console.log("token", token);
-    console.log("user", user[0].username);
+    console.log("user", user.username);
 
     res.redirect("/quizzes");
   }

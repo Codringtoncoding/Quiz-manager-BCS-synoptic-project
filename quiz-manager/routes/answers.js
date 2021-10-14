@@ -10,13 +10,13 @@ const {
   viewAccess,
 } = require("../security/access");
 
-// const auth = passport.authenticate("jwt", { session: false });
+const auth = passport.authenticate("jwt", { session: false });
 
 //create answer post
 router.post("/", 
 // auth, 
 // body("anser").isLength({ min: 8 }),
-  async (req, res) => {
+  auth, async (req, res) => {
     //server side validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -34,13 +34,13 @@ router.post("/",
   }
 );
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
     let id = req.body.id;  
     const answers = await getAllAnswers()
     return res.render("answers", {answers})
   });
 
-router.post("/:id", async (req, res) => {
+router.post("/:id", auth, async (req, res) => {
     let  questionId =  req.params.id
     const answers = await retrieveAnswersFromQuestionsId(questionId)
     
@@ -48,7 +48,7 @@ router.post("/:id", async (req, res) => {
         answers
     });
 });
-router.get("/:id/answers-only", async (req, res, next) => {
+router.get("/:id/answers-only", auth, async (req, res, next) => {
 
   let  questionId =  req.params.id
   const answers = await retrieveAnswersFromQuestionsId(questionId)
@@ -67,7 +67,7 @@ router.get("/:id/delete", function (req, res, next) {
   res.render("answers/delete", { id });
 });
 
-router.post("/:id/delete", async (req, res, next) => {
+router.post("/:id/delete", auth, async (req, res, next) => {
   let questionId = req.params.id;
   await deleteAnswers(questionId);
   console.log("deleted");
