@@ -1,44 +1,44 @@
-var mysql = require('mysql2');
-var db = require('../db');
+const mysql = require("mysql2");
+const db = require("../db");
 
-function createQuiz(quiz, onSuccess) {
-    console.log(quiz, 'quiz')
-    var sql = "INSERT INTO `quizzes` (name) VALUES (?)";
-    var inserts = [quiz.name];
-    var preparedSql = mysql.format(sql, inserts);
-    db.query(preparedSql, onSuccess);
+async function createQuiz(quiz) {
+  const sql = "INSERT INTO `quizzes` (name) VALUES (?)";
+  const inserts = [quiz.name];
+  const preparedSql = mysql.format(sql, inserts);
+  return db.query(preparedSql);
 }
 
-function getAllQuizes(onSuccess) {
-    var sql = "SELECT * FROM `quizzes`";
-    db.query(sql, onSuccess);
+async function getAllQuizes() {
+  const sql = "SELECT * FROM `quizzes`";
+  return db.query(sql);
 }
 
-function getSingualarQuiz(id, onSuccess) {
-    var sql = "SELECT id, name FROM `quizzes` WHERE id = (?)";
-    var inserts = [id];
-    var preparedSql = mysql.format(sql, inserts);
-       db.query(preparedSql, onSuccess);
+async function getSingualarQuiz(id) {
+  const sql = "SELECT id, name FROM `quizzes` WHERE id =?";
+  const inserts = [id];
+  const preparedSql = mysql.format(sql, inserts);
+  return db.query(preparedSql);
 }
 
-function editQuizName(formData, onSuccess) {
-    var sql = "UPDATE `quizzes` SET name=? WHERE id=?";
-    var inserts = [formData.name, formData.id];
-    var preparedSql = mysql.format(sql, inserts);
-    db.query(preparedSql, onSuccess);
+async function editQuizName(formData) {
+  const sql = "UPDATE `quizzes` SET name=? WHERE id=?";
+  const inserts = [formData.name, formData.id];
+  const preparedSql = mysql.format(sql, inserts);
+  return db.query(preparedSql);
 }
 
-function deleteQuiz(id, onSuccess) {
-    var sql = "DELETE FROM `quizzes` WHERE id = (?)";
-    var inserts = [id];
-    var preparedSql = mysql.format(sql, inserts);
-    db.query(preparedSql, onSuccess);
+async function deleteQuiz(id) {
+  const sql = "DELETE FROM `quizzes` WHERE id =?";
+  const inserts = [id];
+  const preparedSql = mysql.format(sql, inserts);
+  return db.query(preparedSql);
 }
 
-function retrieveQuestionsForQuizId() {
-    var sql = "SELECT * FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid`";
-    console.log(sql,'sql')
-    db.query(sql);
+async function retrieveQuestionsFromId(id) {
+  const sql = "SELECT * FROM `questions` WHERE quizid = (?)";
+  const inserts = [id];
+  const preparedSql = mysql.format(sql, inserts);
+  return db.query(preparedSql);
 }
 
 
@@ -47,4 +47,5 @@ module.exports.deleteQuiz = deleteQuiz;
 module.exports.getSingualarQuiz = getSingualarQuiz;
 module.exports.getAllQuizzes = getAllQuizes;
 module.exports.createQuiz = createQuiz;
-module.exports.retrieveQuestionsForQuizId = retrieveQuestionsForQuizId;
+module.exports.retrieveQuestionsFromId = retrieveQuestionsFromId;
+

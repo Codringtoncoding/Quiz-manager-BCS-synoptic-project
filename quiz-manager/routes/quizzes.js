@@ -2,115 +2,115 @@ const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const quizService = require("../services/quizService");
-var passport = require("passport");
-var { editAccess, restrictedAccess, viewAccess } = require("../security/access");
+const answerService = require("../services/answerService");
+
+const passport = require("passport");
+
+const {
+  editAccess,
+  restrictedAccess,
+  viewAccess,
+} = require("../security/access");
+
+const auth = passport.authenticate("jwt", { session: false });
 
 //create quiz post
- 
-const auth = passport.authenticate('jwt', { session: false });
-router.post("/", auth, body("name").isLength({ min: 8 }), function (req, res) {
+router.post("/", auth, body("name").isLength({ min: 8 }), async (req, res) => {
   //server side validation
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  function onSuccess(result) {
-    res.redirect("/quizzes");
-  }
-  quizService.createQuiz(req.body, onSuccess);
+  await quizService.createQuiz(req.body);
+  res.redirect("/quizzes");
+  return;
+});
+//render create new page
+router.get("/new", async (req, res, next) => {
+  return req.render("quizzes/new");
 });
 
-//render create new page
-router.get("/new", auth, editAccess, function (req, res, next) {
-  res.render("quizzes/new");
-});
 //get all quizzes
-router.get("/", function (req, res, next) {
-  function onSuccess(quizzes) {
-    if (!quizzes) {
-      res.render("error", {
-        message: "no quizzes exits",
-      });
-    }
-    res.render("quizzes", {
-      quizzes: quizzes,
-      message: "Quizzes page",
+router.get("/", async (req, res) => {
+  const quizzes = await quizService.getAllQuizzes();
+  if (!quizzes) {
+    return res.render("error", {
+      message: "no quizzes exits",
     });
   }
-  quizService.getAllQuizzes(onSuccess);
+  return res.render("quizzes", {
+    quizzes: quizzes,
+    message: "Quizzes page",
+  });
 });
 
 //get singular quiz
-router.get("/:id", function (req, res, next) {
+router.get("/:id", async function (req, res, next) {
   let quizId = req.params.id;
+  const quiz = await getSingualarQuiz(quizId);
 
-  function onSuccess(quiz) {
-    if (quiz.length === 0) {
-      res.render("error", {
-        message: "no quiz exits",
-      });
-    }
-    console.log(quiz);
-    res.render("quizzes/details", {
-      quiz: quiz[0],
+  if (quiz.length === 0) {
+    return res.render("error", {
+      message: "no quiz exits",
     });
   }
-  quizService.getSingualarQuiz(quizId, onSuccess);
+  return res.render("quizzes/details", {
+    quiz: quiz[0],
+  });
 });
 
-router.get("/:id/edit",  function (req, res, next) {
+router.get("/:id/edit", async (req, res) => {
   let quizId = req.params.id;
-   function onSuccess(quiz) {
-    if (quiz.length === 0) {
-       return res.render("error", {
-        message: "no quiz exits",
-      });
-    } 
-      res.render("quizzes/edit", {
-      quiz: quiz[0],
-    });
-  }
-  quizService.getSingualarQuiz(quizId, onSuccess); 
 
-});
-router.post("/:id/edit", function (req, res, next) {
-  function onSuccess() {
-    res.render("quizzes/edit", {
-      quiz: {
-        id: req.params.id,
-        name: formData.name,
-      },
+  const quiz = await quizService.getSingualarQuiz(quizId);
+  const questions = await quizService.retrieveQuestionsFromId(quizId);
+
+  const model = {
+    quiz: quiz[0],
+    questions,
+  };
+
+  if (quiz.length === 0) {
+    return res.render("error", {
+      message: "no quiz exits",
     });
   }
+  return res.render("quizzes/edit", model);
+});
+
+router.post("/:id/edit", async (req, res) => {
   let formData = {
     id: req.params.id,
     name: req.body.name,
   };
-  try {
-    quizService.editQuizName(formData, onSuccess);
-  } catch (error) {
-    res.render("error", error);
-  }
+
+  await quizService.editQuizName(formData);
+
+  return res.render("quizzes/edit", {
+    quiz: {
+      id: req.params.id,
+      name: formData.name,
+    },
+  });
 });
 
-router.get("/:id/delete", function (req, res, next) {
+router.get("/:id/delete", async (req, res) => {
   let id = req.params.id;
-  res.render("quizzes/delete", { id });
+  return res.render("quizzes/delete", { id });
 });
 
-router.post("/:id/delete", function (req, res, next) {
+router.post("/:id/delete", async (req, res) => {
   let quizId = req.params.id;
-  function onSuccess() {
-    console.log("deleted");
-    res.redirect("/quizzes");
-  }
-  try {
-    quizService.deleteQuiz(quizId, onSuccess);
-  } catch (error) {
-    res.render("error", error);
-  }
-});
 
+  try {
+    await quizService.deleteQuiz(quizId);
+  } catch (err) {
+    return res.render("error", err);
+  }
+  console.log("deleted");
+  return res.redirect("back");
+});
 
 module.exports = router;

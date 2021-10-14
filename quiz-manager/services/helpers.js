@@ -31,4 +31,10 @@ function groupQuestionsByQuizId(quizId, questions) {
   return q;
 }
 
+ const getDataFromObj = (data) => {
+    for (const [key, value] of Object.entries(data)) {
+    console.log(`${key}: ${value}`);
+    }
+  }
+
 // console.log(groupQuestionsByQuizId(quizId, questions));

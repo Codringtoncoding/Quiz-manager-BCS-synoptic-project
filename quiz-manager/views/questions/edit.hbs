@@ -1,26 +1,44 @@
-<h1>Edit questions </h1>
-<h2>{{questions.id}}: {{questions.name}} </h2>
-</h2>
-<form action='/questions/{{questions.id}}/question' method="POST">
-  <span>Please enter a quiz name:</span>
-    <input type="text" placeholder="name" name="name" required minlength="8">
+<h1>Edit question </h1>
+<h2>{{question.id}}: {{question.question}}</h2>
+{{answers.id}}
+<form action='/questions/{{questions.id}}/edit' method="POST">
+    <span>Please enter a question title to change:</span>
+    <input type="text" placeholder="question" name="question" required minlength="8">
     <span class="error" aria-live="polite"></span>
     <button type="submit">Submit</button>
 </form>
-<h1>Quiz</h1>
+<form action='/questions/{{question.id}}/delete' method="POST">
+    <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+</form>
+
+<h3>Edit Answer</h3>
+
+<form action="/answers" method="POST" class="question-form">
+    <span>Please enter an answer and correct answer:</span>
+    <input type="text" placeholder="answer" name="answer" required minlength="8">
+    <span>Answer:</span>
+      <input type="text" placeholder="correct answer" name="correct" required minlength="1">
+    <span>Select the quiz you would like to add this too:</span>
+    <label for={{question.question}}> {{question.question}}</label>
+    <input type="checkbox" id={{question.question}} name="quizid" value={{question.id}} required>
+    <span class="error" aria-live="polite"></span>
+    <button type="submit">Submit</button>
+</form>
+
+<h3>All answers for questions</h3>
 <table>
     <thead>
         <th>ID</th>
-        <th>Name</th>
+        <th>question</th>
     </thead>
+    {{#each answers}}
     <tr>
-        <td>{{quiz.id}}</td>
-        <td>{{quiz.name}}</td>
-        <td>
-            <form action='/quizzes/{{quiz.id}}/delete' method="POST">
-                <input type="submit" name="delete" value='Delete'
-                    onClick="return confirm('Are you sure you want to delete?')" />
+        <td>{{this.answer}}</td>
+        <td>{{this.correct}}
+            <form action='/answers/{{this.id}}/' method="POST">
+                <button type="submit">got to answers</button>
             </form>
         </td>
     </tr>
+    {{/each}}
 </table>

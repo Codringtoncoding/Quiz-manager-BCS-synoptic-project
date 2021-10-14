@@ -1,55 +1,60 @@
-var mysql = require("mysql2");
-var db = require("../db");
-var bcrypt = require("bcrypt");
+const mysql = require("mysql2");
+const db = require("../db");
+const bcrypt = require("bcrypt");
 
-function hashPassword(password) {
+async function hashPassword(password) {
   const saltRounds = 10;
   return bcrypt.hashSync(password, saltRounds);
 }
 
-function createUser(user, onSuccess) {
-  var sql = "INSERT INTO `user` (username, password, role) VALUES (?, ?, ?)";
-  var hashPasswordResult = hashPassword(user.password);
-  var inserts = [user.username, hashPasswordResult, user.role];
-  var preparedSql = mysql.format(sql, inserts);
+async function createUser(user) {
+  const sql = "INSERT INTO `user` (username, password, role) VALUES (?, ?, ?)";
+  const hashPasswordResult = hashPassword(user.password);
+  const inserts = [user.username, hashPasswordResult, user.role];
+  const preparedSql = mysql.format(sql, inserts);
   db.query(preparedSql, onSuccess);
 }
 
-function validateLogin(user, onSuccess) {
-  var sql = "SELECT * FROM `user` WHERE username = ?";
-  var inserts = [user.username];
-  var preparedSql = mysql.format(sql, inserts);
+async function validateLogin(user) {
+  const sql = "SELECT * FROM `user` WHERE username = ?";
+  const inserts = [user.username];
+  const preparedSql = mysql.format(sql, inserts);
   // React to query
-  function onFindingUser(result) {
+  const onFindingUser = async (result) => {
     if (!result || result.length != 1) {
-      onSuccess(false, null);
+      // onSuccess(false, null);
+      console.log("no user");
       return;
     }
-    var passwordCorrect = bcrypt.compareSync(user.password, result[0].password);
+    const passwordCorrect = bcrypt.compareSync(
+      user.password,
+      result[0].password
+    );
 
-    onSuccess(passwordCorrect, result[0]);
-  }
-  db.query(preparedSql, onFindingUser);
+    return passwordCorrect, result[0];
+  };
+  return db.query(preparedSql, onFindingUser);
 }
 
-function findUser(username, onSuccess) {
-  var sql = "SELECT username, role FROM `user` WHERE username = (?)";
+async function findUser(username) {
+  const sql = "SELECT username, role FROM `user` WHERE username = (?)";
 
-  console.log("username",  username)
+  console.log("username", username);
 
-  var inserts = [username];
-  var preparedSql = mysql.format(sql, inserts);
-  function onResult(result) {
+  const inserts = [username];
+  const preparedSql = mysql.format(sql, inserts);
+  const onResult = async (result) => {
+    console.log(result[0].username, "result");
 
-    console.log(result[0].username, 'result')
+    const userFromDb = result[0].username;
 
-     const userFromDb = result[0].username;
+    if (!username === userFromDb) {
+      // onSuccess(null, "no user");
+       console.log("no user");
 
-        if (!username === userFromDb) {
-            onSuccess(null, "no user");
-            return;
-        }
-    onSuccess(null, result );
+      return;
+    }
+     result;
   }
   db.query(preparedSql, onResult);
 }

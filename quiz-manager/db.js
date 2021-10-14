@@ -1,29 +1,32 @@
-var mysql = require('mysql2');
+const mysql = require("mysql2");
 
-var connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'password',
-    database:'quiz_manager'
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "quiz_manager",
 });
 
-connection.connect(function(error){
-    if(!!error) {
-        console.log(error);
-    } else {
-        console.log('Connected!');
-    }
+connection.connect(function (error) {
+  if (!!error) {
+    console.log('DB CONNECT error');
+  } else {
+    console.log("Connected!");
+  }
 });
 
-function query(sql, onResult) {
-    connection.query(sql, function (error, results, fields) {
-        if (error) throw error;
-        onResult(results);
-    });
+async function query(sql) {
+    const db = connection
+    .promise()
+    .query(sql)
+    .then(([rows]) => {
+      return rows
+    })
+    return db;
 }
 
 function end() {
-    connection.end();
+  connection.end();
 }
 
 module.exports.end = end;

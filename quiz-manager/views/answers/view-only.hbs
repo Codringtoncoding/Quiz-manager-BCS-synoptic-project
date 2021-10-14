@@ -1,0 +1,18 @@
+<h1>All answers</h1>
+<table>
+  <thead>
+    <th>ID</th>
+    <th>answer</th>
+    <th>Correct answer</th>
+    <th>Question id it belongs too</th>
+
+  </thead>
+  {{#each answers}}
+    <tr>
+      <td>{{this.id}}</td>
+      <td>{{this.answer}}</td>
+      <td>{{this.correct}}</td>
+      <td>{{this.questionid}}</td>
+    </tr>
+  {{/each}}
+</table>
