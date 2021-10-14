@@ -73,7 +73,6 @@ router.get("/:id/edit", async (req, res) => {
   const quiz = await quizService.getSingualarQuiz(quizId);
   const questions = await quizService.retrieveQuestionsFromId(quizId);
 
-  // const answers = await answerService.retrieveAnswersFromQuestionsId(questions.id);
   const model = {
     quiz: quiz[0],
     questions,

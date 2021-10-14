@@ -2,11 +2,21 @@
 <h2>{{questions.id}}: {{questions.name}} </h2>
 </h2>
 <form action='/questions/{{questions.id}}/question' method="POST">
-  <span>Please enter a quiz name:</span>
+  <span>Please enter a answer name:</span>
     <input type="text" placeholder="name" name="name" required minlength="8">
     <span class="error" aria-live="polite"></span>
     <button type="submit">Submit</button>
 </form>
+
+<h1>New answer</h1>
+<form action="/answers" method="POST">
+    <span>Please enter an answer and correcnt answer:</span>
+    <input type="text" placeholder="answer" name="answer" required minlength="8">
+    <input type="text" placeholder="correct answer" name="correct" required minlength="8">
+    <span class="error" aria-live="polite"></span>
+    <button type="submit">Submit</button>
+</form>
+
 <h1>Quiz</h1>
 <table>
     <thead>

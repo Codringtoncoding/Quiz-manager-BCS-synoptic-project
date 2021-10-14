@@ -12,24 +12,24 @@ const {
 
 const auth = passport.authenticate("jwt", { session: false });
 
-// //create answer post
-// router.postAsync("/", 
-// auth, 
-// body("name").isLength({ min: 8 }),
-//   async (req, res) => {
-//     //server side validation
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-//     await answerService.createAnswer(req.body);
-//     res.redirect("/quizzes");
-//   }
-// );
-// //render create new page
-// router.getAsync( "/view", async (req, res, next) => {
-//   req.render("answers");
-// });
+//create answer post
+router.post("/", 
+auth, 
+body("name").isLength({ min: 8 }),
+  async (req, res) => {
+    //server side validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    await answerService.createAnswer(req.body);
+    res.redirect("/quizzes");
+  }
+);
+//render create new page
+router.get( "/new  ", async (req, res, next) => {
+  req.render("answers/new");
+});
 
 //get all answers for qestion
 // router.getAsync("/", async (req, res) => {
@@ -53,7 +53,7 @@ router.get("/:id", async (req, res) => {
   });
 
 router.post("/:id", async (req, res) => {
-    let questionId =  req.params
+    let  questionId =  req.params.id
     console.log(req, 'req')
 
     console.log(req.body, 'req')

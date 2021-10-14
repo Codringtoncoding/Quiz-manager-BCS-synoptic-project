@@ -1,10 +1,14 @@
 const mysql = require('mysql2');
 const db = require('../db');
 
-async function createQuestion(questions) {
+async function createQuestion(question, quizId) {
     const sql = "INSERT INTO `questions` (question, quizid) VALUES (?, ?)";
-    const inserts = [questions.question, questions.quizid];
+    const inserts = [question, quizId];
     const preparedSql = mysql.format(sql, inserts);
+    console.log(preparedSql, 'prep')
+    console.log(quizId , 'input')
+
+
     return db.query(preparedSql);
 }
 
@@ -15,7 +19,7 @@ async function getAllQuestions() {
 }
 
 async function getSingualarQuestion(id) {
-    const sql = "SELECT id, name FROM `questions` WHERE id = (?)";
+    const sql = "SELECT id, question FROM `questions` WHERE id = (?)";
     const inserts = [id];
     const preparedSql = mysql.format(sql, inserts);
        return db.query(preparedSql);

@@ -1,9 +1,9 @@
 const mysql = require('mysql2');
 const db = require('../db');
 
-function createAnswer(answers) {
+function createAnswer(answer, questionid) {
     const sql = "INSERT INTO `answers` (answer, questionid) VALUES (?, ?)";
-    const inserts = [answers.answer, answers.questionid];
+    const inserts = [answer, questionid];
     const preparedSql = mysql.format(sql, inserts);
     return db.query(preparedSql);
 }
