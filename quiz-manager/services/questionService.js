@@ -10,7 +10,8 @@ async function createQuestion(questions) {
 
 async function getAllQuestions() {
     const sql = "SELECT * FROM `questions`";
-    return db.query(sql);
+    const preparedSql = mysql.format(sql);
+    return db.query(preparedSql);
 }
 
 async function getSingualarQuestion(id) {
@@ -38,7 +39,8 @@ async function deleteQuestion(id) {
 async function retrieveQuestionFromQuizId() {
     const sql = "SELECT * FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid`";
     console.log(sql,'sql')
-    return db.query(sql);
+    const preparedSql = mysql.format(sql);
+    return db.query(preparedSql);
 }
 
 

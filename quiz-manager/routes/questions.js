@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
-const helpers = require("../public/helpers/helpers");
 const passport = require("passport");
 
 const questionService = require("../services/questionService");
-//create quiz post
+
+// create quiz post
 router.post(
   //saniziation
   "/",
@@ -19,12 +19,10 @@ router.post(
 
     await questionService.createQuestion(req.body);
 
-    res.redirect("/quizzes");
+    return res.redirect("/quizzes");
   
-    console.log(req.body, "req.body");
   }
 );
-
 router.get("/", async (req, res, next) => {
 
   const questions = await questionService.retrieveQuestionFromQuizId();

@@ -1,17 +1,19 @@
-<h1>All Questions</h1>
-<p>Welcome to {{title}}</p>
+<h1>All answers</h1>
 <table>
     <thead>
         <th>ID</th>
-        <th>Questions</th>
-        <th>Go to of questions</th>
+        <th>answer</th>
+        <th>Correct answer</th>
+        <th>Question id it belongs too</th>
+
 
     </thead>
-    {{#each questions}}
+    {{#each answers}}
         <tr>
             <td>{{this.id}}</td>
-            <td>{{this.question}}</td>
-            
+            <td>{{this.answer}}</td>
+            <td>{{this.correct}}</td>
+            <td>{{this.questionid}}</td>
             <td>
                 <button>Go</button>
             </td>

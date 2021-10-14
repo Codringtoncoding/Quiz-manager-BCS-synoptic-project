@@ -22,7 +22,6 @@ async function query(sql) {
     .then(([rows]) => {
       return rows
     })
-    .catch(console.log("error"));
     return db;
 }
 

@@ -1,6 +1,5 @@
 <h1>Edit quiz </h1>
 <h2>{{quiz.id}}: {{quiz.name}}</h2>
-<h2>{{questions.name}}: {{quiz.name}}</h2>
 
 <form action='/quizzes/{{quiz.id}}/edit' method="POST">
     <span>Please enter a quiz name:</span>
@@ -9,12 +8,12 @@
     <button type="submit">Submit</button>
 </form>
 <form action='/quizzes/{{quiz.id}}/delete' method="POST">
-    <input type="submit" name="delete" value='Delete'
-        onClick="return confirm('Are you sure you want to delete?')" />
+    <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
 </form>
 
 <h3>New question</h3>
-<form action="/questions" method="POST" class="question-form">   
+
+<form action="/questions" method="POST" class="question-form">
     <span>Please enter a question:</span>
     <input type="text" placeholder="question" name="question" required minlength="8">
     <span>Select the quiz you would like to add this too:</span>
@@ -31,10 +30,15 @@
         <th>ID</th>
         <th>question</th>
     </thead>
+    {{#each questions}}
     <tr>
-        <td>{{questions.id}}</td>
-        <td>{{questions.name}}</td>
-        <td>{{questions.question}}</td>
-
+        <td>{{this.id}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.question}}
+            <form action='/answers/{{this.id}}/' method="POST">
+                <button type="submit">got to answers</button>
+            </form>
+        </td>
     </tr>
+    {{/each}}
 </table>
