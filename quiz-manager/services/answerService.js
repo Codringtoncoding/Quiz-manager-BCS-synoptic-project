@@ -20,9 +20,9 @@ async function getSingualarAnswer(id) {
     return db.query(preparedSql);
 }
 
-async function editAnswers(formData) {
-    const sql = "UPDATE `answers` SET question=? WHERE id=?";
-    const inserts = [formData.question, formData.id];
+async function editAnswer(answer, correct, questionid) {
+    const sql = "UPDATE `answers` SET answer=?, correct=? WHERE id=?";
+    const inserts = [answer, correct, questionid];
     const preparedSql = mysql.format(sql, inserts);
     return db.query(preparedSql);
 }
@@ -44,6 +44,6 @@ async function retrieveAnswersFromQuestionsId(id) {
   module.exports.createAnswer = createAnswer;
   module.exports.getAllAnswers = getAllAnswers;
   module.exports.getSingualarAnswer = getSingualarAnswer;
-  module.exports.editAnswers = editAnswers;
+  module.exports.editAnswer = editAnswer;
   module.exports.deleteAnswers = deleteAnswers;
   module.exports.retrieveAnswersFromQuestionsId = retrieveAnswersFromQuestionsId;

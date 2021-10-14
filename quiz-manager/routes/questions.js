@@ -10,7 +10,16 @@ const {
   editQuestion,
   getSingualarQuestion,
 } = require("../services/questionService");
-const { retrieveAnswersFromQuestionsId, createAnswer } = require("../services/answerService");
+const {
+  retrieveAnswersFromQuestionsId,
+  createAnswer,
+} = require("../services/answerService");
+const {
+  retrieveQuestionsFromId
+} = require("../services/quizService");
+
+// const auth = passport.authenticate("jwt", { session: false });
+
 // create quiz post
 router.post(
   //saniziation
@@ -22,14 +31,9 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    console.log(req.body, 'req')
-    const questionID = req.body.quizid;
-    const question = req.body.question;
-    const answer = req.body.answer;
-    console.log(questionID, 'q')
-    console.log(answer, 'answer')
+
     await createQuestion(question, questionID);
-    await createAnswer(answer, questionID)
+    await createAnswer(answer, questionID);
     return res.redirect("/questions");
   }
 );
@@ -54,10 +58,8 @@ router.get("/:id/edit", async (req, res) => {
   const answers = await retrieveAnswersFromQuestionsId(questionId);
   const model = {
     question: question[0],
-    answers
+    answers,
   };
-
-  console.log(model, "model");
 
   if (question.length === 0) {
     return res.render("error", {
@@ -81,6 +83,26 @@ router.post("/:id/edit", async (req, res) => {
       questions: formData.question,
     },
   });
+});
+
+
+//get questions for quiz 
+router.get("/:id", async (req, res) => {
+  let quizId = req.params.id;
+
+  const quizName = await retrieveQuestionFromQuizId(quizId);
+  const question = await retrieveQuestionsFromId(quizId)
+  const model = {
+    questionName: quizName[0],
+    question,
+  };
+
+  if (question.length === 0) {
+    return res.render("error", {
+      message: "no question exits for this quiz",
+    });
+  }
+  return res.render("questions", model);
 });
 
 router.get("/:id/delete", function (req, res, next) {

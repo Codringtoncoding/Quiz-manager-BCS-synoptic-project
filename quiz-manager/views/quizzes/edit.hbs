@@ -17,10 +17,11 @@
     <span>Please enter a question:</span>
     <input type="text" placeholder="question" name="question" required minlength="8">
     <span>Please enter a answer in the following format 
-<br/> A.“250thousand” 
-<br/> B.“1million”
-<br/> C.“9million”
-<br/>D.“78million”</span>
+        <br/> A.“250thousand” 
+        <br/> B.“1million”
+        <br/> C.“9million”
+        <br/>D.“78million”
+    </span>
     <input type="text" placeholder="answer" name="answer" required minlength="8">
     <span>Select the quiz you would like to add this too:</span>
     <input type="checkbox" id={{quiz.name}} name="quizid" value={{quiz.id}}>
@@ -41,7 +42,7 @@
         <td>{{this.id}}</td>
         <td>{{this.name}}</td>
         <td>{{this.question}}
-            <form action='/answers/{{this.id}}/' method="POST">
+            <form action='/answers/{{this.id}}/' method="GET">
                 <button type="submit">got to answers</button>
             </form>
         </td>

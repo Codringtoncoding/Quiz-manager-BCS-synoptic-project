@@ -15,23 +15,18 @@ const {
 const auth = passport.authenticate("jwt", { session: false });
 
 //create quiz post
-router.post(
-  "/",
-  auth,
-  body("name").isLength({ min: 8 }),
-  async (req, res) => {
-    //server side validation
-    const errors = validationResult(req);
+router.post("/", auth, body("name").isLength({ min: 8 }), async (req, res) => {
+  //server side validation
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    await quizService.createQuiz(req.body);
-    res.redirect("/quizzes");
-    return;
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+
+  await quizService.createQuiz(req.body);
+  res.redirect("/quizzes");
+  return;
+});
 //render create new page
 router.get("/new", async (req, res, next) => {
   return req.render("quizzes/new");
@@ -53,7 +48,6 @@ router.get("/", async (req, res) => {
 
 //get singular quiz
 router.get("/:id", async function (req, res, next) {
-
   let quizId = req.params.id;
   const quiz = await getSingualarQuiz(quizId);
 
@@ -83,7 +77,7 @@ router.get("/:id/edit", async (req, res) => {
       message: "no quiz exits",
     });
   }
-   return res.render("quizzes/edit", model);
+  return res.render("quizzes/edit", model);
 });
 
 router.post("/:id/edit", async (req, res) => {
@@ -109,13 +103,14 @@ router.get("/:id/delete", async (req, res) => {
 
 router.post("/:id/delete", async (req, res) => {
   let quizId = req.params.id;
+
   try {
     await quizService.deleteQuiz(quizId);
   } catch (err) {
     return res.render("error", err);
   }
   console.log("deleted");
-  return res.redirect("/quizzes");
+  return res.redirect("back");
 });
 
 module.exports = router;

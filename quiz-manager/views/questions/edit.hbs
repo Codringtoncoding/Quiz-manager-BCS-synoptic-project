@@ -1,8 +1,8 @@
 <h1>Edit question </h1>
 <h2>{{question.id}}: {{question.question}}</h2>
-
+{{answers.id}}
 <form action='/questions/{{questions.id}}/edit' method="POST">
-    <span>Please enter a question:</span>
+    <span>Please enter a question title to change:</span>
     <input type="text" placeholder="question" name="question" required minlength="8">
     <span class="error" aria-live="polite"></span>
     <button type="submit">Submit</button>
@@ -11,18 +11,19 @@
     <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
 </form>
 
-<h3>New question</h3>
+<h3>Edit Answer</h3>
 
-<form action="/questions/new" method="POST" class="question-form">
-    <span>Please enter a question:</span>
-    <input type="text" placeholder="question" name="question" required minlength="8">
+<form action="/answers" method="POST" class="question-form">
+    <span>Please enter an answer and correct answer:</span>
+    <input type="text" placeholder="answer" name="answer" required minlength="8">
+    <span>Answer:</span>
+      <input type="text" placeholder="correct answer" name="correct" required minlength="1">
     <span>Select the quiz you would like to add this too:</span>
-    <input type="checkbox" id={{questions.question}} name="quizid" value={{quiz.id}}>
-    <label for={{questions.question}}> {{questions.question}}</label>
+    <label for={{question.question}}> {{question.question}}</label>
+    <input type="checkbox" id={{question.question}} name="quizid" value={{question.id}} required>
     <span class="error" aria-live="polite"></span>
     <button type="submit">Submit</button>
 </form>
-
 
 <h3>All answers for questions</h3>
 <table>

@@ -1,19 +1,23 @@
-<h1>All Questions</h1>
-<p>Welcome to {{title}}</p>
+
+
+
+<h1>All Questions for quiz</h1>
+<p>Welcome to{{questionName.id}}:{{questionName.name}}</p>
 <table>
     <thead>
-        <th>ID</th>
+        <th>questions:</th>
         <th>Questions</th>
-        <th>Go to of questions</th>
+
 
     </thead>
-    {{#each questions}}
-        <tr>
-            <td>{{this.id}}</td>
+    {{#each question}}
+        <tr> 
             <td>{{this.question}}</td>
             
             <td>
-                <button>Go</button>
+                <form action='/questions/{{this.id}}/edit' method="GET">
+                <button type="submit">got to question to edit</button>
+            </form>
             </td>
         </tr>
     {{/each}}

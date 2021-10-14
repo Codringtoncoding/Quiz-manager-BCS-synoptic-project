@@ -40,10 +40,10 @@ async function deleteQuestion(id) {
 }
 
 
-async function retrieveQuestionFromQuizId() {
-    const sql = "SELECT * FROM `quizzes` JOIN `questions` ON `quizzes`.`id` = `questions`.`quizid`";
-    console.log(sql,'sql')
-    const preparedSql = mysql.format(sql);
+async function retrieveQuestionFromQuizId(id) {
+    const sql = "SELECT * FROM `quizzes` WHERE id = (?)";
+    const inserts = [id];
+    const preparedSql = mysql.format(sql, inserts);
     return db.query(preparedSql);
 }
 

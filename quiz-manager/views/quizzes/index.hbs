@@ -1,20 +1,26 @@
 <h1>Quiz list</h1>
-<p>Welcome to {{title}}</p>
 <h1>All quizzes</h1>
 <table>
-    <thead>
-        <th>ID</th>
-        <th>Quiz</th>
-        <th>Go to of questions</th>
+  <thead>
+    <th>ID</th>
+    <th>Quiz</th>
+    <th>Go to of questions</th>
 
-    </thead>
-    {{#each quizzes}}
-        <tr>
-            <td>{{this.id}}</td>
-            <td>{{this.name}}</td>
-            <td>
-                <button>Go</button>
-            </td>
-        </tr>
-    {{/each}}
+  </thead>
+  {{#each quizzes}}
+    <tr>
+      <td>{{this.id}}</td>
+      <td>{{this.name}}</td>
+      <td>
+        <form action="/questions/{{this.id}}/" method="GET">
+          <button type="submit">Go</button>
+        </form>
+      </td>
+      <td>
+        <form action="/questions/{{this.id}}/edit" method="GET">
+          <button type="submit">Edit</button>
+        </form>
+      </td>
+    </tr>
+  {{/each}}
 </table>
