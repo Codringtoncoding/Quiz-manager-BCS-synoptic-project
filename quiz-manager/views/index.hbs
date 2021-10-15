@@ -1,11 +1,9 @@
 <h1>{{this.title}}</h1>
-<p>Welcome to the quiz manager{{title}}</p>
+<p>Welcome to {{title}}</p>
+<h3>Please Login to continue</h3>
 
-<h1>Please Login to continue</h1>
-<a type="submit" href="/users/login">Click here to log in and continue</a>
-
-<form action='/users/login' method="POST">
-    <input type="text" placeholder="username" name="username">
-    <input type="password" placeholder="password" name="password">
+<form action='/users/login' method="post" class="form">
+    <input type="text" placeholder="username" name="username" required minlength="5">
+    <input type="password" placeholder="password" name="password" required minlength="5">
     <button type="submit">Submit</button>
 </form>

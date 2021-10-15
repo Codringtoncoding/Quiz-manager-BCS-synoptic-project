@@ -1,44 +1,54 @@
-<h1>Edit question </h1>
-<h2>{{question.id}}: {{question.question}}</h2>
-{{answers.id}}
-<form action='/questions/{{questions.id}}/edit' method="POST">
-    <span>Please enter a question title to change:</span>
-    <input type="text" placeholder="question" name="question" required minlength="8">
-    <span class="error" aria-live="polite"></span>
-    <button type="submit">Submit</button>
-</form>
-<form action='/questions/{{question.id}}/delete' method="POST">
-    <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
-</form>
+<div class="subcontainer">
+    <h1>Edit Question</h1>
+    <h2>{{question.id}}: {{question.question}}</h2>
+    <form action='/questions/{{question.id}}/edit' method="POST" class="form">
+        <ul>Please enter a question title to change:</ul>
+        <input type="text" placeholder="question" name="question" required minlength="8">
+        <ul class="error" aria-live="polite"></ul>
+        <button type="submit">Submit</button>
+    </form>
+    <br />
+    <form action='/questions/{{question.id}}/delete' method="POST">
+        <input type="submit" name="delete" value='Delete'
+            onClick="return confirm('Are you sure you want to delete?')" />
+    </form>
 
-<h3>Edit Answer</h3>
+    <h3>Answer for question</h3>
+    <table>
+        <thead>
+            <th>Answer</th>
+            <th>Correct answer</th>
+        </thead>
+        {{#each answers}}
+        <tr>
+            <td>{{this.answer}}</td>
+            <td>{{this.correct}}</td>
+        </tr>
+        {{/each}}
+    </table>
 
-<form action="/answers" method="POST" class="question-form">
-    <span>Please enter an answer and correct answer:</span>
-    <input type="text" placeholder="answer" name="answer" required minlength="8">
-    <span>Answer:</span>
-      <input type="text" placeholder="correct answer" name="correct" required minlength="1">
-    <span>Select the quiz you would like to add this too:</span>
-    <label for={{question.question}}> {{question.question}}</label>
-    <input type="checkbox" id={{question.question}} name="quizid" value={{question.id}} required>
-    <span class="error" aria-live="polite"></span>
-    <button type="submit">Submit</button>
-</form>
+    <h3>Edit Answer</h3>
 
-<h3>All answers for questions</h3>
-<table>
-    <thead>
-        <th>ID</th>
-        <th>question</th>
-    </thead>
-    {{#each answers}}
-    <tr>
-        <td>{{this.answer}}</td>
-        <td>{{this.correct}}
-            <form action='/answers/{{this.id}}/' method="POST">
-                <button type="submit">got to answers</button>
-            </form>
-        </td>
-    </tr>
-    {{/each}}
-</table>
+    <form action="/answers" method="POST" class="form">
+        Please enter an of answers in the format:
+        <ul> A.“250thousand”
+            <ul>B.“1million”</ul>
+            <ul>C. “9million”</ul>
+            <ul>D.“78million"</ul>
+        </ul>
+        <br />
+        <ul>Answer:</ul>
+        <input type="text" placeholder="answer" name="answer" required minlength="8">
+        <br />
+        <ul>Correct answer:</ul>
+        <input type="text" placeholder="correct answer" name="correct" required minlength="1">
+        <br />
+        <ul>Select the quiz you would like to add this too:</ul>
+        <label for={{question.question}}> {{question.question}}</label>
+        <input type="checkbox" id={{question.question}} name="quizid" value={{question.id}} required>
+        <ul class="error" aria-live="polite"></ul>
+        <button type="submit">Submit</button>
+    </form>
+
+
+</div>
