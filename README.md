@@ -27,3 +27,4 @@ This setup presumes that you have node.js and NPM setup aswell as MySql workbenc
 10. cd to the root of the app `quiz-manager`
 11. Run the app by running DEBUG=myapp:* npm start   
 12. ****important In order to add the users to the database run the script in `quiz-manager/services/loadingData/userload.js` by using the command `node /userload.js` when inside the loadingData folder ****
+13. User guide can be seen here: https://www.loom.com/share/727b30cec3bd472f8b3e9139d03bbdda
