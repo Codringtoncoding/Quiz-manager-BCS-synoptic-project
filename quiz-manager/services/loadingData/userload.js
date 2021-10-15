@@ -1,5 +1,5 @@
-var usersService = require("./usersService");
-var db = require("../db");
+var usersService = require("../usersService");
+var db = require("../../db");
 
 my_test_user_edit = {
   username: "edit_user",

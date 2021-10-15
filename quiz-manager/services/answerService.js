@@ -35,7 +35,7 @@ async function deleteAnswers(id) {
 }
 
 async function retrieveAnswersFromQuestionsId(id) {
-  const sql = "SELECT * FROM `answers` WHERE questionid = (?)";
+  const sql = "SELECT * FROM `answers` WHERE id = (?)";
   const inserts = [id];
   const preparedSql = mysql.format(sql, inserts);
   return db.query(preparedSql);
@@ -47,3 +47,4 @@ module.exports.getSingualarAnswer = getSingualarAnswer;
 module.exports.editAnswer = editAnswer;
 module.exports.deleteAnswers = deleteAnswers;
 module.exports.retrieveAnswersFromQuestionsId = retrieveAnswersFromQuestionsId;
+

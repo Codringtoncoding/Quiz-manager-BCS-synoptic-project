@@ -20,7 +20,7 @@ router.post("/logout", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   const user = await usersService.validateLogin(req.body);
   if (!user) {
-    return res.render("error", {
+    return res.render("errorLogin", {
       message: "No valid user or wrong password",
       error: { title: "User not recognised", message: "user not recognised" },
     });

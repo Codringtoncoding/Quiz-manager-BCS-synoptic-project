@@ -13,6 +13,7 @@ const { restrictedAccess, viewAccess } = require("../security/access");
 const passport = require("passport");
 const auth = passport.authenticate("jwt", { session: false });
 
+
 router.post(
   "/",
   auth,
@@ -25,7 +26,6 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     const questionID = req.body.quizid;
     const answer = req.body.answer;
     const correct = req.body.correct;
@@ -43,7 +43,6 @@ router.get("/:id", auth, viewAccess, restrictedAccess, async (req, res) => {
 router.post("/:id", auth, restrictedAccess, async (req, res) => {
   let questionId = req.params.id;
   const answers = await retrieveAnswersFromQuestionsId(questionId);
-
   return res.render("answers", {
     answers,
   });
@@ -56,7 +55,6 @@ router.get(
   async (req, res, next) => {
     let questionId = req.params.id;
     const answers = await retrieveAnswersFromQuestionsId(questionId);
-
     if (answers.length === 0) {
       return res.render("error", {
         message: "no answers exits for this quiz",

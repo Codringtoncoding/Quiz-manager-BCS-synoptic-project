@@ -1,5 +1,5 @@
 <div class="subcontainer">
-    <h1>Edit question</h1>
+    <h1>Edit Question</h1>
     <h2>{{question.id}}: {{question.question}}</h2>
     <form action='/questions/{{question.id}}/edit' method="POST" class="form">
         <ul>Please enter a question title to change:</ul>
@@ -13,15 +13,34 @@
             onClick="return confirm('Are you sure you want to delete?')" />
     </form>
 
+    <h3>Answer for question</h3>
+    <table>
+        <thead>
+            <th>Answer</th>
+            <th>Correct answer</th>
+        </thead>
+        {{#each answers}}
+        <tr>
+            <td>{{this.answer}}</td>
+            <td>{{this.correct}}</td>
+        </tr>
+        {{/each}}
+    </table>
+
     <h3>Edit Answer</h3>
 
     <form action="/answers" method="POST" class="form">
-        <ul>Please enter a groups of answers and it's following correct answer:</ul>
-        <br />
-        <input type="text" placeholder="answer" name="answer" required minlength="8">
+        Please enter an of answers in the format:
+        <ul> A.“250thousand”
+            <ul>B.“1million”</ul>
+            <ul>C. “9million”</ul>
+            <ul>D.“78million"</ul>
+        </ul>
         <br />
         <ul>Answer:</ul>
+        <input type="text" placeholder="answer" name="answer" required minlength="8">
         <br />
+        <ul>Correct answer:</ul>
         <input type="text" placeholder="correct answer" name="correct" required minlength="1">
         <br />
         <ul>Select the quiz you would like to add this too:</ul>
@@ -31,22 +50,5 @@
         <button type="submit">Submit</button>
     </form>
 
-    <h3>answer for questions</h3>
-    <table>
-        <thead>
-            <th>answer</th>
-            <th>correct answer</th>
-        </thead>
-        {{#each answers}}
-        <tr>
-            <td>{{this.answer}}</td>
-            <td>{{this.correct}}</td>
-            <td>
-            </td>
-        </tr>
-        {{/each}}
-    </table>
-    <form action='/answers/{{question.id}}/' method="POST">
-        <button type="submit">got to answer</button>
-    </form>
+
 </div>

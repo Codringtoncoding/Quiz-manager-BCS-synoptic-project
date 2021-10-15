@@ -17,8 +17,11 @@
     <br />
 
     <input type="text" placeholder="answer" name="answer" required minlength="8">
+    <ul>Correct answer:</ul>
+    <input type="text" placeholder="correct answer" name="correct" required minlength="1">
+    <br />
     <h3>Select the quiz you would like to add this too:</h3>
-    <input type="checkbox" id={{quiz.name}} name="quizid" value={{quiz.id}}>
+    <input type="checkbox" id={{quiz.name}} name="quizid" value={{quiz.id}} required>
     <label for={{quiz.name}}> {{quiz.name}}</label>
     <ul class="error" aria-live="polite"></ul>
     <button type="submit">Submit</button>
@@ -30,7 +33,7 @@
 <table>
     <thead>
         <th>ID</th>
-        <th>question</th>
+        <th>Question</th>
     </thead>
     {{#each questions}}
     <tr>

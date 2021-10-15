@@ -1,8 +1,7 @@
-<h1>All Questions for quiz</h1>
-<p>Welcome to the quiz: {{questionName.id}}: {{questionName.name}}</p>
+<h2>Welcome to the Quiz: {{questionName.id}}: {{questionName.name}}</h2>
 <table>
     <thead>
-        <th>questions:</th>
+        <th>Questions:</th>
         <th>Questions</th>
         <th>Answer</th>
     </thead>
@@ -12,12 +11,12 @@
             
             <td>
                 <form action='/questions/{{this.id}}/edit' method="GET">
-                <button type="submit">got to question to edit</button>
+                <button type="submit">go to question to edit</button>
                 </form>
             </td>
             <td>
-                <form action='/answers/{{this.id}}/answers-only' method="GET">
-                <button type="submit">got to answers</button>
+                <form action='/answers/{{this.id}}' method="POST">
+                <button type="submit">go to answer</button>
                 </form>
             </td>
         </tr>

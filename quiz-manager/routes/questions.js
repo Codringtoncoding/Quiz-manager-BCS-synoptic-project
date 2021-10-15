@@ -137,7 +137,7 @@ router.post(
   restrictedAccess,
   async (req, res, next) => {
     let quizId = req.params.id;
-    res.redirect("/questions");
+    res.redirect('/quizzes');
     deleteQuestion(quizId);
   }
 );
