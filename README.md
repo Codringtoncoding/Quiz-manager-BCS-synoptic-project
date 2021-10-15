@@ -24,6 +24,5 @@ This setup presumes that you have node.js and NPM setup aswell as MySql workbenc
 });`
 
 9. Run NPM `Install to create the dependenices`
-10. run the app by running DEBUG=myapp:* npm start   
-
- ****important In order to add the users to the database run the script in `quiz-manager/services/loadingData/userload.js` by using the command `node /userload.js` when inside the loadingData folder ****
+10. Run the app by running DEBUG=myapp:* npm start   
+11. ****important In order to add the users to the database run the script in `quiz-manager/services/loadingData/userload.js` by using the command `node /userload.js` when inside the loadingData folder ****
