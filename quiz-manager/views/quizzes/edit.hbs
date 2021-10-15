@@ -1,8 +1,8 @@
 <h1>Edit quiz </h1>
 <h2>{{quiz.id}}: {{quiz.name}}</h2>
-<h3>New question</h3>
 
 <form action="/questions" method="POST" class="form">
+<h3>New question</h3>
     <ul>Please enter a new question:</ul>
     <input type="text" placeholder="question" name="question" required minlength="8">
     <h3>Answer</h3>
@@ -28,7 +28,7 @@
 </form>
 
 
-
+<div class="wrapper">
 <h3>All Questions for quiz</h3>
 <table>
     <thead>
@@ -42,3 +42,4 @@
     </tr>
     {{/each}}
 </table>
+</div>

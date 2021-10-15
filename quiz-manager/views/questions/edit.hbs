@@ -1,4 +1,3 @@
-<div class="subcontainer">
     <h1>Edit Question</h1>
     <h2>{{question.id}}: {{question.question}}</h2>
     <form action='/questions/{{question.id}}/edit' method="POST" class="form">
@@ -6,30 +5,32 @@
         <input type="text" placeholder="question" name="question" required minlength="8">
         <ul class="error" aria-live="polite"></ul>
         <button type="submit">Submit</button>
+        <form action='/questions/{{question.id}}/delete' method="POST">
+            <input class="inputdesign" type="submit" name="delete" value='Delete'
+                onClick="return confirm('Are you sure you want to delete?')" />
+        </form>
     </form>
     <br />
-    <form action='/questions/{{question.id}}/delete' method="POST">
-        <input type="submit" name="delete" value='Delete'
-            onClick="return confirm('Are you sure you want to delete?')" />
-    </form>
 
-    <h3>Answer for question</h3>
-    <table>
-        <thead>
-            <th>Answer</th>
-            <th>Correct answer</th>
-        </thead>
-        {{#each answers}}
-        <tr>
-            <td>{{this.answer}}</td>
-            <td>{{this.correct}}</td>
-        </tr>
-        {{/each}}
-    </table>
 
-    <h3>Edit Answer</h3>
+    <div class="wrapper">
+        <h3>Answer for question</h3>
+        <table>
+            <thead>
+                <th>Answer</th>
+                <th>Correct answer</th>
+            </thead>
+            {{#each answers}}
+            <tr>
+                <td>{{this.answer}}</td>
+                <td>{{this.correct}}</td>
+            </tr>
+            {{/each}}
+        </table>
+    </div>
 
     <form action="/answers" method="POST" class="form">
+        <h3>Edit Answer</h3>
         Please enter an of answers in the format:
         <ul> A.“250thousand”
             <ul>B.“1million”</ul>
@@ -49,6 +50,3 @@
         <ul class="error" aria-live="polite"></ul>
         <button type="submit">Submit</button>
     </form>
-
-
-</div>
